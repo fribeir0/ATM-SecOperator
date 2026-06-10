@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BancoCaixa ATM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- Ambient background -->
+  <div class="room">
+    <div class="wall"></div>
+    <div class="floor"></div>
+    <div class="light-beam"></div>
+  </div>
+
+  <!-- ATM Machine -->
+  <div class="atm-wrap">
+    <div class="atm">
+
+      <!-- Header brand -->
+      <div class="atm-header">
+        <div class="brand-logo">
+          <span class="brand-icon">⬡</span>
+          <span class="brand-name">BANCO<strong>CAIXA</strong></span>
+        </div>
+        <div class="status-lights">
+          <span class="dot dot--green" id="dotPower"></span>
+          <span class="dot dot--amber" id="dotNet"></span>
+        </div>
+      </div>
+
+      <!-- Screen -->
+      <div class="screen-bezel">
+        <div class="screen" id="screen">
+          <!-- Screens are injected by JS -->
+        </div>
+        <div class="screen-glare"></div>
+      </div>
+
+      <!-- Card slot area -->
+      <div class="card-area">
+        <div class="card-slot">
+          <div class="card-slot-label">INSIRA O CARTÃO</div>
+          <div class="card-slot-opening">
+            <div class="card-slot-inner"></div>
+          </div>
+        </div>
+        <div class="cash-slot">
+          <div class="cash-slot-label">RETIRE O DINHEIRO</div>
+          <div class="cash-slot-opening" id="cashSlot">
+            <div class="cash-bills" id="cashBills"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Keypad -->
+      <div class="keypad">
+        <div class="keypad-grid">
+          <button class="key" data-val="1">1</button>
+          <button class="key" data-val="2">2</button>
+          <button class="key" data-val="3">3</button>
+          <button class="key" data-val="4">4</button>
+          <button class="key" data-val="5">5</button>
+          <button class="key" data-val="6">6</button>
+          <button class="key" data-val="7">7</button>
+          <button class="key" data-val="8">8</button>
+          <button class="key" data-val="9">9</button>
+          <button class="key key--fn" data-val="clear">CLR</button>
+          <button class="key" data-val="0">0</button>
+          <button class="key key--enter" data-val="enter">↵</button>
+        </div>
+      </div>
+
+      <!-- Bottom brand strip -->
+      <div class="atm-footer">
+        <span>24 HORAS • 7 DIAS</span>
+        <span class="footer-version">v2.4.1</span>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="js/atm.js"></script>
+</body>
+</html>
