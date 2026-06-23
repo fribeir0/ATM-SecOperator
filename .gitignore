@@ -1,0 +1,13 @@
+.env
+*.key
+*.pem
+*.p12
+*.pfx
+id_rsa
+id_ed25519
+service_account.json
+credentials.json
+secrets/
+__pycache__/
+*.pyc
+.venv/
