@@ -44,6 +44,6 @@ jobs:
           [ -n "$DB_PASSWORD" ] && echo 'DB_PASSWORD: OK' || echo 'DB_PASSWORD: AUSENTE'
           [ -n "$SMTP_CREDENTIAL" ] && echo 'SMTP_CREDENTIAL: OK' || echo 'SMTP_CREDENTIAL: AUSENTE'
           [ -n "$JWT_SIGNING_KEY" ] && echo 'JWT_SIGNING_KEY: OK' || echo 'JWT_SIGNING_KEY: AUSENTE'
-
-      - name: Executar aplicacao
-        run: python3 backend/app.py
+      - name: Subir ambiente
+        run: |
+          docker compose up -d --build

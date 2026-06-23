@@ -7,19 +7,11 @@ services:
     ports:
       - "5000:5000"
     environment:
-      # ── Auth Mode ─────────────────────────────────────
-      # Deixe LAMBDA_FUNCTION_NAME vazio para usar auth local.
-      # Preencha para usar seu Lambda real na AWS.cd
       LAMBDA_FUNCTION_NAME: "${LAMBDA_FUNCTION_NAME:-}"
       AWS_REGION:            "${AWS_REGION:-us-east-1}"
-
-      # ── AWS Credentials (só necessário com Lambda) ────
-      # Prefira usar um IAM Role se rodar em EC2/ECS.
       AWS_ACCESS_KEY_ID:     "${AWS_ACCESS_KEY_ID:-}"
       AWS_SECRET_ACCESS_KEY: "${AWS_SECRET_ACCESS_KEY:-}"
       AWS_SESSION_TOKEN:     "${AWS_SESSION_TOKEN:-}"
-
-      # ── Flask ─────────────────────────────────────────
       FLASK_DEBUG: "${FLASK_DEBUG:-0}"
 
     restart: unless-stopped
