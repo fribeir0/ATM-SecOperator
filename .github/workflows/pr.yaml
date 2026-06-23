@@ -1,0 +1,17 @@
+name: "PR-Deploy"
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, syncronize]
+  
+jobs:
+  buid-test-push:
+    name: Teste Build para "PR-Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: "Checkout Code"
+        uses: actions/checkout@v6
+
+        ac

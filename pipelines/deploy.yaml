@@ -1,0 +1,46 @@
+name: Pipeline Seguro - SecureBank Analytics
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  securebank-ci:
+    runs-on: ubuntu-latest
+
+    env:
+      PAYMENT_API_KEY: ${{ secrets.PAYMENT_API_KEY }}
+      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      SMTP_CREDENTIAL: ${{ secrets.SMTP_CREDENTIAL }}
+      JWT_SIGNING_KEY: ${{ secrets.JWT_SIGNING_KEY }}
+      LAMBDA_FUNCTION_NAME: ${{ secrets.LAMBDA_FUNCTION_NAME }}
+      AWS_REGION: ${{ secrets.AWS_REGION }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.JWT_AWS_SECRET_ACCESS_KEY }}
+      AWS_SESSION_TOKEN: ${{ secrets.AWS_SESSION_TOKEN }}
+
+    steps:
+      - name: Checkout do codigo
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Instalar dependencias
+        run: pip install python-dotenv
+
+      - name: Validar carregamento de secrets
+        run: |
+          echo 'Verificando presença de secrets configurados...'
+          [ -n "$PAYMENT_API_KEY" ] && echo 'PAYMENT_API_KEY: OK' || echo 'PAYMENT_API_KEY: AUSENTE'
+          [ -n "$DB_PASSWORD" ] && echo 'DB_PASSWORD: OK' || echo 'DB_PASSWORD: AUSENTE'
+          [ -n "$SMTP_CREDENTIAL" ] && echo 'SMTP_CREDENTIAL: OK' || echo 'SMTP_CREDENTIAL: AUSENTE'
+          [ -n "$JWT_SIGNING_KEY" ] && echo 'JWT_SIGNING_KEY: OK' || echo 'JWT_SIGNING_KEY: AUSENTE'
+
+      - name: Executar aplicacao
+        run: python3 backend/app.py
