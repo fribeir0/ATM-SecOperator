@@ -10,6 +10,7 @@ permissions:
 jobs:
   securebank-ci:
     runs-on: ubuntu-latest
+    environment: PRD
 
     env:
       PAYMENT_API_KEY: ${{ secrets.PAYMENT_API_KEY }}
