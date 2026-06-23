@@ -15,13 +15,13 @@ logger = logging.getLogger(__name__)
 app = Flask(__name__, static_folder="../frontend")
 CORS(app)
 
-#  In-memory "bank" state
+
 ACCOUNTS = {
     "1234": {
         "card_number": "**** **** **** 1234",
         "owner": "JOÃO SILVA",
         "pin_hash": hashlib.sha256("1111".encode()).hexdigest(),
-        "balance": float("inf"),   # dinheiro infinito 💸
+        "balance": float("inf"),  
         "currency": "BRL",
     },
     "5678": {
@@ -34,7 +34,7 @@ ACCOUNTS = {
 }
 
 SESSIONS: dict = {}
-SESSION_TTL = 120  # segundos
+SESSION_TTL = 120 
 
 
 LAMBDA_FUNCTION_NAME = os.getenv("LAMBDA_FUNCTION_NAME", "")
@@ -65,7 +65,6 @@ def authorize_via_lambda(card_id: str, pin: str) -> dict:
             Payload=payload.encode(),
         )
         result = json.loads(resp["Payload"].read())
-        # Lambda pode retornar body aninhado (API Gateway proxy style)
         if "body" in result:
             result = json.loads(result["body"])
         return result
@@ -83,9 +82,7 @@ def authorize_local(card_id: str, pin: str) -> dict:
         return {"authorized": False, "message": "PIN incorreto."}
     return {"authorized": True, "message": "OK"}
 
-# ─────────────────────────────────────────
-#  Session helpers
-# ─────────────────────────────────────────
+
 def _clean_sessions():
     now = time.time()
     expired = [sid for sid, s in SESSIONS.items() if now - s["created_at"] > SESSION_TTL]
@@ -102,9 +99,7 @@ def _require_session(session_id: str):
         return None, jsonify({"success": False, "message": "Sessão inválida ou expirada."}), 401
     return s, None, None
 
-# ─────────────────────────────────────────
-#  Static files
-# ─────────────────────────────────────────
+
 @app.route("/")
 def index():
     return send_from_directory("../frontend", "index.html")
@@ -113,9 +108,6 @@ def index():
 def static_files(path):
     return send_from_directory("../frontend", path)
 
-# ─────────────────────────────────────────
-#  API routes
-# ─────────────────────────────────────────
 @app.route("/api/auth", methods=["POST"])
 def auth():
     data = request.get_json(silent=True) or {}
@@ -125,7 +117,6 @@ def auth():
     if not card_id or not pin:
         return jsonify({"success": False, "message": "Dados incompletos."}), 400
 
-    # Usa Lambda se configurado, senão local
     if USE_LAMBDA_AUTH:
         logger.info("Authenticating via Lambda: %s", LAMBDA_FUNCTION_NAME)
         result = authorize_via_lambda(card_id, pin)
@@ -190,7 +181,6 @@ def withdraw():
         return jsonify({"success": False, "message": "Limite por saque: R$ 10.000,00."}), 400
 
     account = ACCOUNTS[session["account_id"]]
-    # Saldo infinito — saque sempre aprovado
     logger.info("Withdraw R$ %.2f for account %s", amount, session["account_id"])
     return jsonify({
         "success": True,
